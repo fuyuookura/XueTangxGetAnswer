@@ -2,7 +2,7 @@
 import json
 import requests
 # 在下面输入你的cookie
-cookie = '你的cookie'
+cookie = '_abfpc=98a51b8db2c49fc0eda45abee577a7983e14829e_2.0; cna=39d4a561b08eeedd7b68827770d1c083; _ga=GA1.2.4595738.1681089689; _gid=GA1.2.76717693.1684054323; login_type=WX; csrftoken=McLKEoItHqflh9kGIlrM1WYvxfrDJgBa; sessionid=um1eqomub8sep0a7x3lsl6ovp7wbprfg; provider=xuetang; django_language=zh-cn; k=33947209; point={%22point_active%22:true%2C%22platform_task_active%22:true%2C%22learn_task_active%22:true}; sensorsdata2015jssdkcross=%7B%22distinct_id%22%3A%2233947209%22%2C%22first_id%22%3A%2218768c0f0fea8-07f35ba781948ac-1e525634-2104200-18768c0f0ff15c7%22%2C%22props%22%3A%7B%22%24latest_traffic_source_type%22%3A%22%E7%9B%B4%E6%8E%A5%E6%B5%81%E9%87%8F%22%2C%22%24latest_search_keyword%22%3A%22%E6%9C%AA%E5%8F%96%E5%88%B0%E5%80%BC_%E7%9B%B4%E6%8E%A5%E6%89%93%E5%BC%80%22%2C%22%24latest_referrer%22%3A%22%22%7D%2C%22%24device_id%22%3A%2218768c0f0fea8-07f35ba781948ac-1e525634-2104200-18768c0f0ff15c7%22%7D; 33947209video_seconds=236; JG_016f5b1907c3bc045f8f48de1_PV=1684110009729|1684111483032'
 # 在上面输入你的cookie
 headers = {
     'authority': 'www.xuetangx.com',
@@ -25,7 +25,16 @@ params = (
 )
 response = requests.get('https://www.xuetangx.com/api/v1/lms/learn/course/chapter', headers=headers, params=params)
 mJson = json.loads(response.text)
-course_chapter = mJson['data'].get('course_chapter')
+try:
+    course_chapter = mJson['data'].get('course_chapter')
+    if course_chapter is not None:
+        for i in course_chapter:
+            # Process each chapter
+            pass
+    else:
+        print("'course_chapter' key is not found in the JSON response.")
+except KeyError:
+    print("'data' key is not found in the JSON response.")
 for i in course_chapter:
     mCourse_chapter = json.dumps(eval(str(i)))
     section_leaf_list = i.get('section_leaf_list')
